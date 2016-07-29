@@ -12,26 +12,62 @@ abstract class AbstractDbMapper extends AbstractDbMapper
      * CRUD
      * */
     function insert($entity, $tableName = NULL, HydratorInterface $hydrator = NULL) {
-        return parent::insert($entity, $this->getTableName(), $this->getHydrator());
+        $this->getEventManager()->trigger(__FUNCTION__ . 'pre', $this, [
+            'entity'    => $entity,
+            'hydrator'  => $hydrator
+        ]);
+        
+        $insert = parent::insert($entity, $this->getTableName(), $this->getHydrator());
+        
+        $this->getEventManager()->trigger(__FUNCTION__ . 'post', $this, [
+            'entity'    => $entity,
+            'hydrator'  => $hydrator,
+            'insert'    => $insert
+        ]);
+        
+        return $insert;
     }
     
     function update($entity, $where, $tableName = NULL, HydratorInterface $hydrator = NULL) {
-        return parent::update($entity, $where, $this->getTableName(), $this->getHydrator());
+        $this->getEventManager()->trigger(__FUNCTION__ . 'pre', $this, [
+            'entity'    => $entity,
+            'hydrator'  => $hydrator
+        ]);
+
+        $update = parent::update($entity, $where, $this->getTableName(), $this->getHydrator());
+
+        $this->getEventManager()->trigger(__FUNCTION__ . 'post', $this, [
+            'entity'    => $entity,
+            'hydrator'  => $hydrator,
+            'update'    => $update
+        ]);
+
+        return $update;
     }
     
     function delete($where, $tableName = NULL) {
-        return parent::delete($where, $this->getTableName());
+        $this->getEventManager()->trigger(__FUNCTION__ . 'pre', $this, [
+            'where'     => $where,
+        ]);
+
+        $delete = parent::delete($where, $this->getTableName());
+
+        $this->getEventManager()->trigger(__FUNCTION__ . 'post', $this, [
+            'where'     => $where,
+        ]);
+
+        return $delete;
     }
     
-    function insertEntityWithId($entity, $id, HydratorInterface $hydrator = null) {
-        //         print_r($entity);
+    
+    function insertEntityWithPKId($entity, $id, HydratorInterface $hydrator = null) {
         $array = parent::entityToArray($entity, $hydrator);
-        //         print_r($array);
         unset($array[$id]);
-        //         print_r($array);
         return $this->insert($array);
     }
     
+
+
     /*
      * id => $id
      * limit => $limit
@@ -74,16 +110,16 @@ abstract class AbstractDbMapper extends AbstractDbMapper
     }
     
     /*
-     * Automatization
+     * Automatization WithoutId
      * */
-    function save($entity, $where) {
+    function save($entityWithoutId, $where) {
         $getEntity = $this->getEntityListByFilter($where)->current();
         
         try {
             if (!$getEntity) {//object
-                $result = $this->insert($entity);
+                $result = $this->insert($entityWithoutId);
             } else {
-                $result = $this->update($entity, $where);
+                $result = $this->update($entityWithoutId, $where);
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -92,21 +128,24 @@ abstract class AbstractDbMapper extends AbstractDbMapper
         return $result;
     }
     
-    /*
-     * Entity
+    /**
+     * @return \Zend\Db\ResultSet\HydratingResultSet $HydratingResultSet
      * */
     function getEntityList() {
         return $this->select($this->getSelect());
     }
 
+    /**
+     * @return \Zend\Db\ResultSet\HydratingResultSet $HydratingResultSet
+     * */
     function getEntityListByFilter($filter = array()) {
         return $this->select( $this->getSelect()->where( $filter));
     }
     
-    /*
-     * Form
+    /**
+     * @return array
      * */
-    function getArrayToForm($id, $title){
+    function getArrayToFormSelectElement($id, $title){
          $ArrList = $this->select($this->getSelect())->toArray();
          $array = array();
          
@@ -116,9 +155,6 @@ abstract class AbstractDbMapper extends AbstractDbMapper
          
          return $array;
     }
-    
-    
 
 }
 
-?>
