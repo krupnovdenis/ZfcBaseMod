@@ -8,4 +8,3 @@ interface SqlAwareInterface
     function setSql(Sql $Sql);
 }
 
-?>
