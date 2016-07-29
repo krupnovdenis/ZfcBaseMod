@@ -1,0 +1,32 @@
+{
+    "name": "voodoo773/zfc-base-mod",
+    "description": "Ex for zfc-base",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2",
+        "Model"
+    ],
+    "homepage": "https://github.com/Voodoo773/ZfcUserMod",
+    "authors": [
+        {
+            "name": "Krupnov Denis",
+            "homepage": "http://time-ismoney.com"
+        },
+        {
+            "name": "Dmitry Halitsky",
+            "homepage": "http://time-ismoney.com"
+        }
+    ],
+    "require": {
+        "zf-commons/zfc-base": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZfcBaseMod": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
