@@ -11,8 +11,9 @@ namespace ZfcBaseMod;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface
+class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
 {
     public function getAutoloaderConfig()
     {
@@ -29,7 +30,22 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         );
     }
 
-    public function getConfig()
+    public function getServiceConfig()
+    {
+        return [
+            'initializers' => function ($service, ServiceLocatorInterface $SL) {
+                if ($service instanceof ServiceLocatorAwareInterface) {
+                    $service->setServiceLocator($SL);
+                }
+    
+                if ($service instanceof SqlAwareInterface) {
+                    $service->setSql(new Sql($SL->get('Zend\Db\Adapter\Adapter')));
+                }
+            }
+        ];
+    }
+
+ public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
