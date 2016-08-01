@@ -4,6 +4,7 @@ namespace ZfcBaseMod\Model\Aware;
 use Zend\Db\Sql\Sql;
 trait SqlAwareTrait
 {
+    /** @var \Zend\Db\Sql\Sql $Sql  */
     protected $Sql = NULL;
 
     public function getSql()
@@ -14,7 +15,7 @@ trait SqlAwareTrait
         }
         return $this->Sql;
     }
-    
+
     public function setSql(Sql $Sql)
     {
         $this->Sql = $Sql;
