@@ -1,12 +1,12 @@
 <?php
 namespace ZfcBaseMod\Mapper;
 
-use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Predicate\Predicate;
 use Zend\Db\Sql\Where;
-abstract class AbstractDbMapper extends AbstractDbMapper
+
+abstract class AbstractDbMapper extends \ZfcBase\Mapper\AbstractDbMapper
 {
     /*
      * CRUD
