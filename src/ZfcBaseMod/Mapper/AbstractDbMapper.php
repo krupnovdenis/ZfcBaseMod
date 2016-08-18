@@ -5,6 +5,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Predicate\Predicate;
 use Zend\Db\Sql\Where;
+use Zend\Db\ResultSet\HydratingResultSet;
 
 abstract class AbstractDbMapper extends \ZfcBase\Mapper\AbstractDbMapper
 {
