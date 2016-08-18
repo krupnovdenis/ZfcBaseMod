@@ -170,5 +170,19 @@ abstract class AbstractDbMapper extends \ZfcBase\Mapper\AbstractDbMapper
          return $array;
     }
 
+    /**
+     * @return array
+     * */
+    function getArraySelect(HydratingResultSet $HydratingResultSet, $id, $title){
+        $ArrList = $HydratingResultSet->toArray();
+        $array = array();
+         
+        foreach ($ArrList as $Arr) {
+            $array[$Arr[$id]] = $Arr[$title];
+        }
+         
+        return $array;
+    }
+
 }
 
