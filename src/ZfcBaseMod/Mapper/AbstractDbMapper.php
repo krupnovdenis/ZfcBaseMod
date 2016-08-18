@@ -141,6 +141,20 @@ abstract class AbstractDbMapper extends \ZfcBase\Mapper\AbstractDbMapper
     function getEntityListByFilter($filter = array()) {
         return $this->select( $this->getSelect()->where( $filter));
     }
+
+    /**
+     * @return \Zend\Db\ResultSet\HydratingResultSet $HydratingResultSet
+     * */
+    function getEntityList_Order($array = array()) {
+        return $this->select($this->getSelect()->order($array));
+    }
+    
+    /**
+     * @return \Zend\Db\ResultSet\HydratingResultSet $HydratingResultSet
+     * */
+    function getEntityListByFilter_Order($filter = array(), $order = array()) {
+        return $this->select( $this->getSelect()->order($order)->where( $filter));
+    }
     
     /**
      * @return array
