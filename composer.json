@@ -2,6 +2,7 @@
     "name": "voodoo773/zfc-base-mod",
     "description": "Ex for zfc-base",
     "type": "library",
+    "minimum-stability" : "dev",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf2",
