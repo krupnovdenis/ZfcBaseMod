@@ -1,2 +1,8 @@
 <?php
-return array();
+return array(
+  'view_manager' => array(
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
+    ),
+  );
