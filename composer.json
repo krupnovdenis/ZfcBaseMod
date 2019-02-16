@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "zf-commons/zfc-base": "0.*"
+        "zf-commons/zfc-base": "*"
     },
     "autoload": {
         "psr-0": {
